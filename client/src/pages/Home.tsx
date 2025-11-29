@@ -1,14 +1,28 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, CheckCircle, Zap, Shield, Clock } from "lucide-react";
+import OnboardingForm from "@/components/OnboardingForm";
 
 export default function Home() {
-  // TODO: Replace this URL with your actual Google Form URL after creating it
-  const GOOGLE_FORM_URL = "YOUR_GOOGLE_FORM_URL_HERE";
+  const [showForm, setShowForm] = useState(false);
 
-  const handleGetStarted = () => {
-    window.open(GOOGLE_FORM_URL, "_blank");
-  };
+  if (showForm) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-16">
+        <div className="container mx-auto px-4">
+          <Button
+            onClick={() => setShowForm(false)}
+            variant="ghost"
+            className="mb-8"
+          >
+            ← Back to Home
+          </Button>
+          <OnboardingForm />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -28,7 +42,7 @@ export default function Home() {
             24/7 call capture, and smart client management
           </p>
           <Button
-            onClick={handleGetStarted}
+            onClick={() => setShowForm(true)}
             size="lg"
             className="text-lg px-8 py-6 bg-blue-600 hover:bg-blue-700"
           >
@@ -180,7 +194,7 @@ export default function Home() {
               Join hundreds of HVAC businesses already automating their operations with Artful Automation
             </CardDescription>
             <Button
-              onClick={handleGetStarted}
+              onClick={() => setShowForm(true)}
               size="lg"
               variant="secondary"
               className="text-lg px-8 py-6"
