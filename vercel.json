@@ -1,4 +1,15 @@
 {
-  "buildCommand": "echo 'Using static files from client/public'",
-  "outputDirectory": "client/public"
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist/client",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
