@@ -9,3 +9,6 @@
 - [x] Test end-to-end flow
 - [ ] Deploy to Vercel
 - [ ] Configure custom domain
+
+- [ ] Fix Vercel deployment configuration
+- [ ] Redeploy to Vercel
