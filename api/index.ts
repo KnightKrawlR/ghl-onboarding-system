@@ -1,4 +1,3 @@
-// @ts-ignore
-import app from "../server/_core/vercel";
+import app from "./vercel.js";
 
 export default app;

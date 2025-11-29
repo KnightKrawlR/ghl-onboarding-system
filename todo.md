@@ -12,3 +12,4 @@
 
 - [ ] Fix Vercel deployment configuration
 - [ ] Redeploy to Vercel
+- [ ] Fix TypeScript errors in Vercel build
