@@ -1,308 +1,205 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Loader2, CheckCircle2, Building2 } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
-import { trpc } from "@/lib/trpc";
+import { Building2, CheckCircle, Zap, Shield, Clock } from "lucide-react";
 
 export default function Home() {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    companyName: "",
-    companyPhone: "",
-    companyEmail: "",
-    companyWebsite: "",
-    companyAddress: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    country: "US",
-    ownerFirstName: "",
-    ownerLastName: "",
-    ownerEmail: "",
-    ownerPhone: "",
-    businessHours: "",
-  });
+  // TODO: Replace this URL with your actual Google Form URL after creating it
+  const GOOGLE_FORM_URL = "YOUR_GOOGLE_FORM_URL_HERE";
 
-  const submitMutation = trpc.onboarding.submit.useMutation({
-    onSuccess: () => {
-      setIsSuccess(true);
-      toast.success("Success! Your submission has been received and is being reviewed.");
-    },
-    onError: (error) => {
-      toast.error(error.message || "Something went wrong. Please try again.");
-    },
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    submitMutation.mutate(formData);
+  const handleGetStarted = () => {
+    window.open(GOOGLE_FORM_URL, "_blank");
   };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  if (isSuccess) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <Card className="max-w-md w-full">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <CheckCircle2 className="h-16 w-16 text-green-500" />
-            </div>
-            <CardTitle className="text-2xl">Thank You!</CardTitle>
-            <CardDescription className="text-base">
-              Your onboarding submission has been received. We'll review your information and get your account set up shortly.
-              You'll receive an email confirmation once everything is ready.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <Building2 className="h-12 w-12 text-blue-600" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Hero Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <div className="p-4 bg-blue-600 rounded-2xl shadow-lg">
+              <Building2 className="h-12 w-12 text-white" />
+            </div>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
             Welcome to Artful Automation
           </h1>
-          <p className="text-lg text-gray-600">
-            Complete this form to get started with your HVAC business automation
+          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Your complete HVAC business automation solution with AI-powered voice agents,
+            24/7 call capture, and smart client management
           </p>
+          <Button
+            onClick={handleGetStarted}
+            size="lg"
+            className="text-lg px-8 py-6 bg-blue-600 hover:bg-blue-700"
+          >
+            Start Your Onboarding
+          </Button>
         </div>
 
-        <Card>
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <Card className="border-2 hover:border-blue-300 transition-colors">
+            <CardHeader>
+              <div className="p-3 bg-blue-100 rounded-lg w-fit mb-4">
+                <Zap className="h-6 w-6 text-blue-600" />
+              </div>
+              <CardTitle>Instant Setup</CardTitle>
+              <CardDescription>
+                Get your complete HVAC automation system deployed in minutes with our
+                pre-configured Golden Snapshot template
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:border-blue-300 transition-colors">
+            <CardHeader>
+              <div className="p-3 bg-green-100 rounded-lg w-fit mb-4">
+                <Clock className="h-6 w-6 text-green-600" />
+              </div>
+              <CardTitle>24/7 AI Voice Agent</CardTitle>
+              <CardDescription>
+                Never miss a call with our intelligent AI voice agent that captures leads
+                and schedules appointments around the clock
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:border-blue-300 transition-colors">
+            <CardHeader>
+              <div className="p-3 bg-purple-100 rounded-lg w-fit mb-4">
+                <Shield className="h-6 w-6 text-purple-600" />
+              </div>
+              <CardTitle>Secure & Reliable</CardTitle>
+              <CardDescription>
+                Enterprise-grade security with dedicated sub-accounts, automated workflows,
+                and complete data protection
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        {/* What You Get Section */}
+        <Card className="mb-16 bg-white/80 backdrop-blur">
           <CardHeader>
-            <CardTitle>Business Onboarding</CardTitle>
-            <CardDescription>
-              Please provide your business information below. We'll review and set up your account.
-            </CardDescription>
+            <CardTitle className="text-3xl text-center">What's Included in Your Package</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Company Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Company Information</h3>
-                
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
                 <div>
-                  <Label htmlFor="companyName">Company Name *</Label>
-                  <Input
-                    id="companyName"
-                    name="companyName"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                    placeholder="ABC Heating & Cooling"
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="companyPhone">Company Phone *</Label>
-                    <Input
-                      id="companyPhone"
-                      name="companyPhone"
-                      type="tel"
-                      value={formData.companyPhone}
-                      onChange={handleChange}
-                      placeholder="(555) 123-4567"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="companyEmail">Company Email *</Label>
-                    <Input
-                      id="companyEmail"
-                      name="companyEmail"
-                      type="email"
-                      value={formData.companyEmail}
-                      onChange={handleChange}
-                      placeholder="info@company.com"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="companyWebsite">Company Website</Label>
-                  <Input
-                    id="companyWebsite"
-                    name="companyWebsite"
-                    type="url"
-                    value={formData.companyWebsite}
-                    onChange={handleChange}
-                    placeholder="https://www.yourcompany.com"
-                  />
+                  <h4 className="font-semibold text-lg">AI Voice Agent</h4>
+                  <p className="text-gray-600">24/7 intelligent call handling and lead capture</p>
                 </div>
               </div>
 
-              {/* Company Address */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Business Address</h3>
-                
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
                 <div>
-                  <Label htmlFor="companyAddress">Street Address *</Label>
-                  <Input
-                    id="companyAddress"
-                    name="companyAddress"
-                    value={formData.companyAddress}
-                    onChange={handleChange}
-                    placeholder="123 Main Street"
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <Label htmlFor="city">City *</Label>
-                    <Input
-                      id="city"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      placeholder="New York"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="state">State *</Label>
-                    <Input
-                      id="state"
-                      name="state"
-                      value={formData.state}
-                      onChange={handleChange}
-                      placeholder="NY"
-                      maxLength={2}
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="postalCode">Postal Code *</Label>
-                    <Input
-                      id="postalCode"
-                      name="postalCode"
-                      value={formData.postalCode}
-                      onChange={handleChange}
-                      placeholder="10001"
-                      required
-                    />
-                  </div>
+                  <h4 className="font-semibold text-lg">Smart Calendars</h4>
+                  <p className="text-gray-600">Automated scheduling and appointment management</p>
                 </div>
               </div>
 
-              {/* Owner Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Owner Information</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="ownerFirstName">First Name *</Label>
-                    <Input
-                      id="ownerFirstName"
-                      name="ownerFirstName"
-                      value={formData.ownerFirstName}
-                      onChange={handleChange}
-                      placeholder="John"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="ownerLastName">Last Name *</Label>
-                    <Input
-                      id="ownerLastName"
-                      name="ownerLastName"
-                      value={formData.ownerLastName}
-                      onChange={handleChange}
-                      placeholder="Doe"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="ownerEmail">Owner Email *</Label>
-                    <Input
-                      id="ownerEmail"
-                      name="ownerEmail"
-                      type="email"
-                      value={formData.ownerEmail}
-                      onChange={handleChange}
-                      placeholder="john@company.com"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="ownerPhone">Owner Phone *</Label>
-                    <Input
-                      id="ownerPhone"
-                      name="ownerPhone"
-                      type="tel"
-                      value={formData.ownerPhone}
-                      onChange={handleChange}
-                      placeholder="(555) 987-6543"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Additional Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Additional Information</h3>
-                
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
                 <div>
-                  <Label htmlFor="businessHours">Business Hours</Label>
-                  <Textarea
-                    id="businessHours"
-                    name="businessHours"
-                    value={formData.businessHours}
-                    onChange={handleChange}
-                    placeholder="Monday-Friday: 8 AM - 6 PM, Saturday: 9 AM - 2 PM, Sunday: Closed"
-                    rows={3}
-                  />
+                  <h4 className="font-semibold text-lg">Custom Workflows</h4>
+                  <p className="text-gray-600">Pre-built automation for follow-ups and reminders</p>
                 </div>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                disabled={submitMutation.isPending}
-              >
-                {submitMutation.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  "Submit Onboarding Form"
-                )}
-              </Button>
-            </form>
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-lg">Lead Pipelines</h4>
+                  <p className="text-gray-600">Track and convert leads with visual pipelines</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-lg">Client Forms</h4>
+                  <p className="text-gray-600">Professional intake and service request forms</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-lg">Dedicated Sub-Account</h4>
+                  <p className="text-gray-600">Your own isolated GHL environment</p>
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Questions? Contact us at support@artfulautomation.com
-        </p>
+        {/* How It Works */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 mb-12">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="space-y-4">
+              <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
+                1
+              </div>
+              <h3 className="text-xl font-semibold">Fill Out the Form</h3>
+              <p className="text-gray-600">
+                Provide your business information through our simple onboarding form
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
+                2
+              </div>
+              <h3 className="text-xl font-semibold">We Review & Approve</h3>
+              <p className="text-gray-600">
+                Our team reviews your submission and prepares your custom setup
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
+                3
+              </div>
+              <h3 className="text-xl font-semibold">Start Automating</h3>
+              <p className="text-gray-600">
+                Receive your login credentials and start capturing leads immediately
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
+          <CardHeader className="text-center pb-8">
+            <CardTitle className="text-3xl mb-4">Ready to Transform Your HVAC Business?</CardTitle>
+            <CardDescription className="text-blue-100 text-lg mb-6">
+              Join hundreds of HVAC businesses already automating their operations with Artful Automation
+            </CardDescription>
+            <Button
+              onClick={handleGetStarted}
+              size="lg"
+              variant="secondary"
+              className="text-lg px-8 py-6"
+            >
+              Complete Your Onboarding Form
+            </Button>
+          </CardHeader>
+        </Card>
+
+        {/* Footer */}
+        <div className="text-center mt-12 text-gray-600">
+          <p className="mb-2">Questions about onboarding?</p>
+          <p className="text-sm">
+            Contact us at{" "}
+            <a href="mailto:support@artfulautomation.com" className="text-blue-600 hover:underline">
+              support@artfulautomation.com
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
